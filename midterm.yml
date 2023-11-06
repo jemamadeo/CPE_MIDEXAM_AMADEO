@@ -1,0 +1,56 @@
+---
+- name: Install and Configure Elastic Stack
+  hosts: centos, ubuntu
+  become: yes
+  tasks:
+    - name: Include Elasticsearch role
+      include_role:
+        name: elasticsearch
+      when: "'elasticsearch' in elastic_stack_services"
+
+    - name: Include Kibana role
+      include_role:
+        name: kibana
+      when: "'kibana' in elastic_stack_services"
+
+    - name: Include Logstash role
+      include_role:
+        name: logstash
+      when: "'logstash' in elastic_stack_services"
+
+- name: Install Nagios in Ubuntu
+  hosts: ubuntu
+  become: yes
+  tasks:
+    - include_role:
+        name: nagios
+
+- name: Install Prometheus
+  hosts: ubuntu,centos
+  become: yes
+
+  roles:
+    - role: ubuntuprometheus
+      when: ansible_distribution == "Ubuntu"
+    - role: centosprometheus
+      when: ansible_distribution == "CentOS"
+
+- name: Install InfluxDB
+  hosts: centos
+  roles:
+    - influxdb
+
+- name: Install InfluxDB
+  hosts: ubuntu
+  roles:
+    - influxdb
+
+- name: Install httpd,php,mariadb
+  hosts: ubuntu,centos
+  become: yes
+  roles:
+    - apache
+    - php
+    - mariadb
+
+

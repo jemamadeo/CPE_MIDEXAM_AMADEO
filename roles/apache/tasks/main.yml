@@ -1,0 +1,15 @@
+---
+- name: Install Apache in Ubuntu (httpd)
+  become: yes
+  apt:
+    name: apache2
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Apache (httpd)
+  become: yes
+  yum:
+    name: httpd
+    state: present
+  when: ansible_distribution == "CentOS"
+

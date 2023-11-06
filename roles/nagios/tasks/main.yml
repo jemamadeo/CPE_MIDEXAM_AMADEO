@@ -1,0 +1,41 @@
+---
+- name: Install necessary packages for Nagios
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apache2
+    - php
+    - libapache2-mod-php
+    - libgd-tools
+    - libgd-dev
+    - make
+    - autoconf
+    - gcc
+    - libc6
+    - libgd-dev
+    - openssl
+    - libssl-dev
+  when: ansible_distribution == "Ubuntu"
+
+- name: Download Nagios Core
+  get_url:
+    url: "https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.13.tar.gz"
+    dest: /tmp/nagios.tar.gz
+
+- name: Extract Nagios Core
+  ansible.builtin.unarchive:
+    src: /tmp/nagios.tar.gz
+    dest: /tmp/nagios-4.4.6
+    remote_src: yes
+  become: yes
+
+- name: Extract Nagios source code
+  ansible.builtin.unarchive:
+    src: /tmp/nagios.tar.gz
+    dest: /tmp/nagios-4.4.6
+    remote_src: yes
+  become: yes
+
+
+

@@ -1,0 +1,4 @@
+---
+influxdb_admin_user: admin
+influxdb_admin_password: admin
+

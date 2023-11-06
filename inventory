@@ -1,0 +1,7 @@
+[ubuntu]
+192.168.56.108 ansible_python_interpreter=/usr/bin/python3
+[centos]
+192.168.56.110 ansible_python_interpreter=/usr/bin/python
+
+[all:vars]
+elastic_stack_services=elasticsearch,kibana,logstash

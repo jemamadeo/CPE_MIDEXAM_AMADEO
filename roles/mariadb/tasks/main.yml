@@ -1,0 +1,15 @@
+---
+- name: Install MariaDB
+  become: yes
+  apt:
+    name: mariadb-server
+    state: present
+  when: ansible_os_family == "Ubuntu"
+
+- name: Install MariaDB
+  become: yes
+  yum:
+    name: mariadb-server
+    state: present
+  when: ansible_distribution == "CentOS"
+

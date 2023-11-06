@@ -1,0 +1,26 @@
+---
+- name: Install Grafana in Ubuntu
+  apt:
+    name: grafana
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Grafana in CentOS
+  yum:
+    name: grafana
+    state: present
+  when: ansible_distribution == "RedHat"
+
+- name: Start Grafana service
+  service:
+    name: grafana-server
+    state: started
+    enabled: yes
+  notify: Reload systemd
+
+- name: Ensure Grafana configuration
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+  notify: Reload systemd
+
